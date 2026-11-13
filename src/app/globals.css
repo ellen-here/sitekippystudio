@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Kippy Studio design system — based on the reference design
+   (kippy_studio_ag_ncia_digital_criativa.html)
+   Palette: off-white #fcfaf7, charcoal #212529, rose #e0989b,
+   rose-light #f5d6d8, lavender #b8a5d1, cream #f4ece1.
+   Fonts: Outfit (display) + Plus Jakarta Sans (body).
+   Text-safe variants keep WCAG AA contrast: blush-deep, lavender-soft.
+------------------------------------------------------------------- */
+@theme {
+  --color-cream: #fcfaf7; /* page background (reference bg) */
+  --color-sand: #f4ece1; /* reference cream — soft surfaces */
+  --color-graphite: #4b5563; /* body text (gray-600) */
+  --color-ink: #212529; /* reference charcoal */
+  --color-blush: #e0989b; /* reference rose (decorative) */
+  --color-blush-deep: #965451; /* rose accessible for text (AA) */
+  --color-rose-light: #f5d6d8; /* reference roseLight */
+  --color-lavender: #b8a5d1; /* reference lavender */
+  --color-lavender-soft: #c5bbe0; /* lighter lavender for text on dark */
+
+  --font-display: var(--font-outfit), "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem; /* offset for the sticky header */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-graphite);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  /* Keyboard navigation visibility (WCAG) */
+  :focus-visible {
+    outline: 3px solid var(--color-blush-deep);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background-color: var(--color-blush);
+    color: #ffffff;
+  }
+}
+
+/* ---------- Reference utilities ---------- */
+@utility pill {
+  border-radius: 9999px;
+}
+
+/* Soft rose glow used on cards (from the reference stylesheet) */
+@utility custom-shadow {
+  box-shadow: 0 15px 35px -5px rgba(224, 152, 155, 0.15);
+}
+
+/* Radial rose/lavender blob background of the reference hero */
+@utility blob-bg {
+  background: radial-gradient(
+    circle at 70% 30%,
+    rgba(224, 152, 155, 0.15) 0%,
+    rgba(184, 165, 209, 0.08) 40%,
+    rgba(244, 236, 225, 0.5) 100%
+  );
+}
+
+/* ---------- Animations ---------- */
+@keyframes kippy-twinkle {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.72) rotate(12deg);
+    opacity: 0.55;
+  }
+}
+
+@keyframes kippy-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes kippy-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kippy-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes kippy-pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+.animate-twinkle {
+  animation: kippy-twinkle 3.2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: kippy-float 5s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: kippy-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-scale-in {
+  animation: kippy-scale-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-pulse-ring {
+  animation: kippy-pulse-ring 2.4s ease-out infinite;
+}
+
+/* Staggered entrance delays */
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-400 {
+  animation-delay: 400ms;
+}
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+/* ---------- Utilities ---------- */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Hide scrollbar on horizontal carousels while keeping scroll */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth appearance for filtered portfolio grids */
+.grid-item-enter {
+  animation: kippy-fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
