@@ -1,0 +1,21 @@
+# Netlify configuration — Kippy Studio
+# Framework detection (Next.js / OpenNext adapter) is automatic on Netlify;
+# we only pin the build command here.
+
+[build]
+  command = "npm run build"
+  # publish directory is configured automatically by the Next.js adapter
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Security & caching headers
+[[headers]]
+  for = "/icon.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/opengraph-image"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
