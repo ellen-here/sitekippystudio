@@ -1,0 +1,30 @@
+# Deploys Kippy Studio to Netlify on every push to main.
+#
+# The site's build_settings use a Netlify deploy key (SSH) to clone the repo,
+# so the Netlify GitHub App is not required — we only need to trigger the
+# build hook configured in the Netlify dashboard (Site settings → Build hooks).
+
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-netlify
+  cancel-in-progress: false
+
+jobs:
+  trigger-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Netlify build
+        run: |
+          status=$(curl -sS -o /tmp/netlify-response.txt -w "%{http_code}" \
+            -X POST "${{ secrets.NETLIFY_BUILD_HOOK }}")
+          echo "Netlify build hook responded with HTTP ${status}"
+          cat /tmp/netlify-response.txt
+          if [ "$status" -ge 300 ]; then
+            exit 1
+          fi
